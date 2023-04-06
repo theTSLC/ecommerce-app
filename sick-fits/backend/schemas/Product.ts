@@ -5,7 +5,7 @@ export const Product = list({
   // TODO
   // access:
   fields: {
-    names: text({ isRequired: true }),
+    name: text({ isRequired: true }),
     description: text({
       ui: {
         displayMode: 'textarea',
