@@ -5,16 +5,39 @@ export default function useForm(initial = {}) {
   const [inputs, setInputs] = useState(initial);
 
   function handleChange(event) {
+    let { name, type, value } = event.target;
+
+    if (type === 'number') {
+      value = parseInt(value);
+    }
+
+    if (type === 'file') {
+      value[0] = event.target.files;
+    }
+
     setInputs({
       // copy existing state
       ...inputs,
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
+  }
+
+  function resetForm() {
+    setInputs(initial);
+  }
+
+  function clearForm() {
+    const blankState = Object.fromEntries(
+      Object.entries(inputs).map(([key, value]) => [key, ''])
+    );
+    setInputs(blankState);
   }
 
   // return what we want to surface from this custom hook
   return {
     inputs,
     handleChange,
+    resetForm,
+    clearForm,
   };
 }
